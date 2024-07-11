@@ -3,27 +3,26 @@ import { colors } from "./src/util/Colors";
 import { Produto } from "./src/model/Produto";
 import { Instrumento } from "./src/model/Instrumento";
 import { Acessorio } from "./src/model/Acessorio";
+import { ProdutoController } from "./src/controller/ProdutoController";
 
 export function main(){
 
    
-    let opcao: number ;
+    let opcao, id, tipo, preco: number ;
+    let nome, categoria, marca: string; 
 
-    // Testes da aplicação
-    //Novas Instâncias da Classe Instrumento (Objetos)
-    const p1: Instrumento = new Instrumento(1,'Guitarra', 1 , 600.00, 'cordas');
-    const p2: Instrumento = new Instrumento(1,'Bateria', 1 , 2000.00, 'percussão');
+    const tipoProdutos = ['Instrumento', 'Acessorio']
 
-    p1.visualizar();
-    p2.visualizar();
+    //Instânciando ( criando objeto) Classe Controller
+    const produtos: ProdutoController = new ProdutoController()
 
-
-    // Objeto da Classe Acessorio (teste)
-    const a1: Acessorio = new Acessorio(1,'Capotraste', 2 , 20.00, 'Dunlop');
-    const a2: Acessorio = new Acessorio(1,'Palheta', 2 , 5.00, 'Alice');
-
-    a1.visualizar()
-    a2.visualizar()
+//Teste da aplicação
+    // produtos.cadastrarProduto(new Instrumento(produtos.gerarId(),'Guitarra', 1 , 600.00, 'cordas'))
+    // produtos.cadastrarProduto(new Instrumento(produtos.gerarId(),'Bateria', 1 , 2000.00, 'percussão'))
+    
+    // // Novas Instâncias da Classe Poupança (Objetos)
+    // produtos.cadastrarProduto(new Acessorio(produtos.gerarId(), 'Capotraste', 2, 20.00, 'Unlop'));
+    // produtos.cadastrarProduto(new Acessorio(produtos.gerarId(), ' Palheta', 2, 5.00, 'Alice'));
 
     while(true){
         console.log(colors.reset)
@@ -60,24 +59,100 @@ export function main(){
             case 1:
                 console.log("\n\nCadastrar Produto\n\n")
 
+                console.log("Digite o Nome do Produto: ")
+                nome = readlinesync.question("")
+
+                console.log("Digite o Tipo do Produto: ")
+                tipo = readlinesync.keyInSelect(tipoProdutos, "", {cancel: false}) + 1 
+
+                console.log("Digite o Preço do Produto: ")
+                preco = readlinesync.questionFloat("")
+
+                switch(tipo){
+                    case 1:
+                        console.log("Digite a categoria: ")
+                        categoria = readlinesync.question("")
+
+                        produtos.cadastrarProduto(new Instrumento(produtos.gerarId(), nome, tipo, preco, categoria)) 
+
+                        break
+                    case 2:
+                        console.log("Digite a marca: ")
+                        marca = readlinesync.question("")
+
+                        produtos.cadastrarProduto( new Acessorio(produtos.gerarId(), nome, tipo, preco, marca))
+
+                        break
+
+                }
                 keyPress()
                 break
             case 2: 
                 console.log("\n\nListar todos Produtos\n\n")
 
+                produtos.listarProdutos()
+
                 keyPress()                
                 break
             case 3:
                 console.log("\n\nBuscar produto por ID\n\n")
+
+                console.log("Digite o ID: ")
+                id = readlinesync.questionInt("")
+
+                produtos.consultarPorId(id)
+
                 keyPress()
                 break
             case 4:
                 console.log("\n\nAtualizar Produto\n\n")
 
+                console.log("Digite o ID do Produto: ")
+                id = readlinesync.questionInt("")
+
+                let produto = produtos.buscarArray(id);
+
+                if(produto !== null){
+                    console.log("Digite o Nome do Produto: ")
+                    nome = readlinesync.question("")
+                    
+                    tipo = produto.tipo;
+    
+                    console.log("Digite o Preço do Produto: ")
+                    preco = readlinesync.questionFloat("")
+
+                    switch(tipo){
+                        case 1:
+                            console.log("Digite a categoria: ")
+                            categoria = readlinesync.question("")
+    
+                            produtos.atualizarProduto(new Instrumento(id, nome, tipo, preco, categoria)) 
+    
+                            break
+                        case 2:
+                            console.log("Digite a marca: ")
+                            marca = readlinesync.question("")
+    
+                            produtos.atualizarProduto( new Acessorio(id, nome, tipo, preco, marca))
+    
+                            break
+    
+                    }
+                } else{
+                    console.log(colors.fg.redstrong)
+                    console.log("\n O produto não foi encontrado")
+                    console.log(colors.reset)
+                }
+
                 keyPress()
                 break
             case 5:
                 console.log("\n\nApagar Produto\n\n")
+
+                console.log("Digite o ID do Produto que será deletado: ")
+                id = readlinesync.questionInt("")
+
+                produtos.deletarProduto(id)
 
                 keyPress()
                 break
