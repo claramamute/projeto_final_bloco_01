@@ -16,14 +16,6 @@ export function main(){
     //Instânciando ( criando objeto) Classe Controller
     const produtos: ProdutoController = new ProdutoController()
 
-//Teste da aplicação
-    // produtos.cadastrarProduto(new Instrumento(produtos.gerarId(),'Guitarra', 1 , 600.00, 'cordas'))
-    // produtos.cadastrarProduto(new Instrumento(produtos.gerarId(),'Bateria', 1 , 2000.00, 'percussão'))
-    
-    // // Novas Instâncias da Classe Poupança (Objetos)
-    // produtos.cadastrarProduto(new Acessorio(produtos.gerarId(), 'Capotraste', 2, 20.00, 'Unlop'));
-    // produtos.cadastrarProduto(new Acessorio(produtos.gerarId(), ' Palheta', 2, 5.00, 'Alice'));
-
     while(true){
         console.log(colors.reset)
         console.log(colors.fg.magentastrong)
